@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Banner from './components/Banner';
+import Header from './components/Header';
+import ListImage from './components/ListImage';
+import UploadImage from './components/UploadImage';
+
+export interface Image {
+    id: number;
+    name?: string;
+    url: string;
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className=" app bg-site bg-no-repeat bg-cover">
+            <Header />
+            <Banner />
+            <UploadImage />
+            <ListImage />
+        </div>
+    );
 }
 
 export default App;
