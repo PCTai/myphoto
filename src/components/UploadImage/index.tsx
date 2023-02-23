@@ -26,8 +26,8 @@ const UploadImage = () => {
         try {
             // Nen anh
             const compressedFile = await imageCompression(file, options);
-
-            const storageRef = ref(storage, `${Date.now()}`);
+            const idImage = Date.now();
+            const storageRef = ref(storage, `${idImage}`);
             const uploadTask = uploadBytesResumable(storageRef, compressedFile);
             uploadTask.on(
                 'state_changed',
@@ -35,7 +35,7 @@ const UploadImage = () => {
                 async () => {
                     console.log('vao day');
                     await getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        await setDoc(doc(db, 'images', `${Date.now()}`), {
+                        await setDoc(doc(db, 'images', `${idImage}`), {
                             name: file['name'],
                             url: downloadURL,
                             createdAt: serverTimestamp(),

@@ -2,11 +2,28 @@ import React from 'react';
 import { Image } from '../../App';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../../variants';
+import { db, storage } from '../../firebase/config';
+import { deleteObject, ref } from 'firebase/storage';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 const ImageEl: React.FC<{ image: Image; setOpen: any; i: number }> = ({ image, setOpen, i }) => {
     const { url } = image;
     const handleChooseImage = () => {
         setOpen(i);
+    };
+    const handleRemoveImage = async (e: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
+        e.stopPropagation();
+        const desertRef = ref(storage, `${image.id}`);
+
+        // Delete the file
+        deleteObject(desertRef)
+            .then(() => {})
+            .catch((error) => {
+                console.log(error);
+            });
+        // Delete the doc
+
+        await deleteDoc(doc(db, 'images', `${image.id}`));
     };
     return (
         <motion.div
@@ -23,8 +40,14 @@ const ImageEl: React.FC<{ image: Image; setOpen: any; i: number }> = ({ image, s
                 src={url}
                 className="group-hover:scale-125 w-full h-full object-cover absolute transition-all duration-300"
             />
-            <h3 className="absolute -bottom-12 left-4 group-hover:bottom-6 text-accent z-20">
+            <h3 className="absolute truncate overflow-hidden w-10/12 -bottom-12 left-4 group-hover:bottom-6 text-accent z-20 transition-all duration-300">
                 {image.name}
+            </h3>
+            <h3
+                onClick={(e) => handleRemoveImage(e)}
+                className="absolute text-lg -top-12 right-6 group-hover:top-6 text-accent z-20 transition-all duration-300"
+            >
+                <i className="fas fa-trash"></i>
             </h3>
         </motion.div>
     );

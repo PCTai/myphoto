@@ -34,7 +34,6 @@ const Modal: React.FC<{ open: number; setOpen: any; images: Image[] }> = ({
             onClick={() => setOpen(null)}
             animate={images[open] ? 'open' : 'closed'}
             variants={variants}
-            initial={false}
             transition={{ duration: 0.5 }}
             className={`${
                 images[open] ? 'block' : 'hidden'
